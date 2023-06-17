@@ -23,7 +23,6 @@ public class Login extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(Login.this, InitialScreen.class);
                 startActivity(intent);
-
             }
         });
     }
