@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Gift Geek</string>
+    <string name="app_Name">GIFT GEEK</string>
+    <string name="app_description">Get gifting with gift geek!</string>
+    <string name="buttonLogin">Login</string>
+    <string name="buttonSignUp">Sign Up</string>
+
 </resources>
