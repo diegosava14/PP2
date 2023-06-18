@@ -4,7 +4,9 @@
     <string name="app_description">Get gifting with gift geek!</string>
     <string name="buttonLogin">Login</string>
     <string name="buttonSignUp">Sign Up</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="title_activity_profile">Profile</string>
+    <string name="buttonLogOut">Log Out</string>
+    <string name="buttonEditProfile">Edit Profile</string>
+    <string name="buttonStats">Statistics</string>
 </resources>
