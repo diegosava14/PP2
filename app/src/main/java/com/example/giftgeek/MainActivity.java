@@ -23,14 +23,26 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch(item.getItemId()){
                 case R.id.search:
+                    SearchFragment searchFragment = new SearchFragment();
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putString("loggedInUser", getIntent().getStringExtra("loggedInUser"));
+                    searchFragment.setArguments(bundle2);
                     replaceFragment(new SearchFragment());
                     break;
                 case R.id.home:
-                    replaceFragment(new WishListFragment());
+                    WishListFragment wishListFragment = new WishListFragment();
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("loggedInUser", getIntent().getStringExtra("loggedInUser"));
+                    wishListFragment.setArguments(bundle1);
+                    replaceFragment(wishListFragment);
                     break;
 
                 case R.id.user:
-                    replaceFragment(new UserFragment());
+                    UserFragment userFragment = new UserFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("loggedInUser", getIntent().getStringExtra("loggedInUser"));
+                    userFragment.setArguments(bundle);
+                    replaceFragment(userFragment);
                     break;
             }
 

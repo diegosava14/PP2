@@ -15,6 +15,9 @@
         <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/layout/activity_login.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/layout/activity_signup.xml" value="0.3359375" />
+        <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/layout/fragment_search.xml" value="0.33" />
+        <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/layout/fragment_user.xml" value="0.33" />
+        <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/layout/fragment_wish_list.xml" value="0.22146739130434784" />
         <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3453125" />
       </map>
     </option>
