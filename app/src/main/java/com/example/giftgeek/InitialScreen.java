@@ -18,6 +18,12 @@ public class InitialScreen extends AppCompatActivity {
         Button loginButton = (Button) findViewById(R.id.loginButton);
         Button signUpButton = (Button) findViewById(R.id.signupButton);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("UserCredentials", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        SharedPreferences sharedPreferences2 = getSharedPreferences("Usernames", MODE_PRIVATE);
+        SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
