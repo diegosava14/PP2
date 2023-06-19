@@ -3,13 +3,22 @@ package com.example.giftgeek;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.giftgeek.API.MethodsAPI;
+import com.example.giftgeek.Entities.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Login extends AppCompatActivity {
 
@@ -45,31 +54,44 @@ public class Login extends AppCompatActivity {
                 String email = emailField.getText().toString();
                 String password = passwordField.getText().toString();
 
-                if(login(email, password)) {
-                    Toast.makeText(getApplicationContext(), "LogIn successful!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    intent.putExtra("loggedInUser", email);
-                    intent.setClass(Login.this, MainActivity.class);
-                    startActivity(intent);
-                }else {
-                    Toast.makeText(getApplicationContext(), "Wrong email or password.", Toast.LENGTH_SHORT).show();
-                    emailField.setText("");
-                    passwordField.setText("");
-                }
+                signIn(email, password);
             }
         });
     }
 
-    public boolean login(String email, String password) {
-        boolean success;
-        SharedPreferences sharedPreferences = getSharedPreferences("UserCredentials", MODE_PRIVATE);
+    public void signIn(String email, String password) {
+        String url = MethodsAPI.URL_LOGIN;
+        JSONObject requestBody = new JSONObject();
 
-        String pass = sharedPreferences.getString(email, "not found");
+        try {
+            requestBody = User.signInUserJson(email, password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        if (pass.equals("not found")) {
-            success = false;
-        }else success = password.equals(pass);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Handle successful response
+                        try {
+                            String accessToken = response.getString("accessToken");
+                            System.out.println(accessToken);
+                            // Process the access token
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("hola");
+                            System.out.println(error);
+                    }
+                });
 
-        return success;
-    }
+        // Add the request to the Volley request queue
+        Volley.newRequestQueue(getApplicationContext()).add(request);
+        }
 }

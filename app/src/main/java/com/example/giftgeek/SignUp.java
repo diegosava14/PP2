@@ -3,16 +3,22 @@ package com.example.giftgeek;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import java.util.Map;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.giftgeek.API.MethodsAPI;
+import com.example.giftgeek.Entities.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SignUp extends AppCompatActivity {
 
@@ -47,78 +53,46 @@ public class SignUp extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = usernameField.getText().toString();
                 String email = emailField.getText().toString();
                 String password = passwordField.getText().toString();
 
-                if(signUp(username, email, password)){
-                    Intent intent = new Intent();
-                    intent.putExtra("loggedInUser", email);
-                    //intent.putExtra("Class", "SignUp");
-                    intent.setClass(SignUp.this, MainActivity.class);
-                    startActivity(intent);
-                }
+                signUp("Manuel", "Lopez", "manu@gmail.com", "123456");
             }
         });
     }
 
-    public boolean signUp(String username, String email, String password) {
-        boolean success = false;
+    public void signUp(String firstName,String lastName, String email, String password) {
+        String url = MethodsAPI.URL_REGISTER;
+        JSONObject requestBody = new JSONObject();
 
-        SharedPreferences sharedPreferences = getSharedPreferences("UserCredentials", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        SharedPreferences sharedPreferences2 = getSharedPreferences("Usernames", MODE_PRIVATE);
-        SharedPreferences.Editor editor2 = sharedPreferences2.edit();
-
-        String available = sharedPreferences.getString(email, "not found");
-
-        Map<String, ?> allEntries = sharedPreferences2.getAll();
-
-        boolean usernameExists = false;
-
-        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            String searchEmail = entry.getKey();
-            String searchUsername = entry.getValue().toString();
-
-            if (searchUsername.equalsIgnoreCase(username)) {
-                usernameExists = true;
-                break;
-            }
+        try {
+            requestBody = User.registerUserJson(firstName, lastName, email, password, "image");
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        if(available.equals("not found") && !usernameExists) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Handle successful response
+                        try {
+                            int id = response.getInt("id");
+                            System.out.println(id);
+                            // Process the access token
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("Error: " + error);
+                    }
+                });
 
-            editor.putString(email, password);
-            editor.commit();
-
-            editor2.putString(email, username);
-            editor2.commit();
-
-            Toast.makeText(getApplicationContext(), "Sign Up successful!", Toast.LENGTH_SHORT).show();
-
-            success = true;
-        }
-
-        if(!available.equals("not found") && usernameExists){
-            Toast.makeText(getApplicationContext(), "Username and Email already exists", Toast.LENGTH_SHORT).show();
-            usernameField.setText("");
-            emailField.setText("");
-            success = false;
-        }
-
-        if(!available.equals("not found") && !usernameExists){
-            Toast.makeText(getApplicationContext(), "Email already exists", Toast.LENGTH_SHORT).show();
-            emailField.setText("");
-            success = false;
-        }
-
-        if(available.equals("not found") && usernameExists){
-            Toast.makeText(getApplicationContext(), "Username already exists", Toast.LENGTH_SHORT).show();
-            usernameField.setText("");
-            success = false;
-        }
-
-        return success;
+        // Add the request to the Volley request queue
+        Volley.newRequestQueue(getApplicationContext()).add(request);
     }
 }
