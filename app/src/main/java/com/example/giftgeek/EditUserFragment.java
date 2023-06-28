@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -24,6 +25,9 @@ import com.example.giftgeek.Entities.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditUserFragment extends Fragment {
 
@@ -51,11 +55,37 @@ public class EditUserFragment extends Fragment {
             }
         });
 
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String firstName = newName.getText().toString();
+                String lastName = newLastname.getText().toString();
+                String password = newPassword.getText().toString();
+
+                if (firstName.isEmpty() && lastName.isEmpty() && password.isEmpty()) {
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Please fill any of the fields to edit them.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(firstName.isEmpty()) firstName = getArguments().getString("name_OLD");
+                if(lastName.isEmpty()) lastName = getArguments().getString("lastName_OLD");
+                if(password.isEmpty()) password = getArguments().getString("password_OLD");
+
+                String email = getArguments().getString("email");
+                editUser(firstName, lastName, email, password);
+            }
+        });
+
         return view;
     }
 
-    public void signUp(String firstName,String lastName, String email, String password) {
+
+    public void editUser(String firstName,String lastName, String email, String password) {
         String url = MethodsAPI.URL_REGISTER;
+        String accessToken = getArguments().getString("accessToken");
+        System.out.println(accessToken);
+
         JSONObject requestBody = new JSONObject();
 
         try {
@@ -64,31 +94,33 @@ public class EditUserFragment extends Fragment {
             e.printStackTrace();
         }
 
-        Intent intent = new Intent();
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, requestBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         // Handle successful response
                         try {
-                            int id = response.getInt("id");
-                            Log.d("user_id", String.valueOf(id));
-                            intent.putExtra("user_id", id);
+                            String name = response.getString("name");
+                            Log.d("Response", name);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        getActivity().onBackPressed();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
-                        newName.setText("");
-                        newLastname.setText("");
-                        newPassword.setText("");
+                        Log.d("Error.Response", error.toString());
                     }
-                });
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+        };
 
         // Add the request to the Volley request queue
         Volley.newRequestQueue(getActivity().getApplicationContext()).add(request);
