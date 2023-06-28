@@ -6,36 +6,6 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/username_field"
-        android:layout_width="235dp"
-        android:layout_height="39dp"
-        android:background="@drawable/edittext_rounded_blue"
-        android:ems="10"
-        android:hint="Username"
-        android:inputType="textEmailAddress"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.092" />
-
-    <Button
-        android:id="@+id/signupButton_signup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/buttonSignUp"
-        app:backgroundTint="#2196F3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordField_signUp"
-        app:layout_constraintVertical_bias="0.725" />
-
-    <EditText
         android:id="@+id/passwordField_signUp"
         android:layout_width="235dp"
         android:layout_height="39dp"
@@ -50,7 +20,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailField_signUp"
-        app:layout_constraintVertical_bias="0.129" />
+        app:layout_constraintVertical_bias="0.169" />
+
+    <EditText
+        android:id="@+id/name_field"
+        android:layout_width="235dp"
+        android:layout_height="39dp"
+        android:background="@drawable/edittext_rounded_blue"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textEmailAddress"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintVertical_bias="0.106" />
+
+    <Button
+        android:id="@+id/signupButton_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/buttonSignUp"
+        app:backgroundTint="#2196F3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailField_signUp"
+        app:layout_constraintVertical_bias="0.725" />
 
     <EditText
         android:id="@+id/emailField_signUp"
@@ -66,8 +66,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_field"
-        app:layout_constraintVertical_bias="0.102" />
+        app:layout_constraintTop_toBottomOf="@+id/surname_field"
+        app:layout_constraintVertical_bias="0.139" />
+
+    <EditText
+        android:id="@+id/surname_field"
+        android:layout_width="235dp"
+        android:layout_height="39dp"
+        android:background="@drawable/edittext_rounded_blue"
+        android:ems="10"
+        android:hint="Surname"
+        android:inputType="textEmailAddress"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_field"
+        app:layout_constraintVertical_bias="0.098" />
 
     <TextView
         android:id="@+id/textView4"

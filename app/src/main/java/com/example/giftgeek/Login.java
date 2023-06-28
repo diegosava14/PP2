@@ -4,21 +4,29 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.giftgeek.API.MethodsAPI;
 import com.example.giftgeek.Entities.User;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Login extends AppCompatActivity {
 
@@ -27,6 +35,8 @@ public class Login extends AppCompatActivity {
 
     EditText emailField;
     EditText passwordField;
+
+    Intent intent = new Intent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,22 +86,64 @@ public class Login extends AppCompatActivity {
                         // Handle successful response
                         try {
                             String accessToken = response.getString("accessToken");
-                            System.out.println(accessToken);
-                            // Process the access token
+                            intent.putExtra("accessToken", accessToken);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+                        getId(email);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println("hola");
-                            System.out.println(error);
+                        Toast.makeText(getApplicationContext(), "Wrong email or password.", Toast.LENGTH_SHORT).show();
+                        emailField.setText("");
+                        passwordField.setText("");
                     }
                 });
 
         // Add the request to the Volley request queue
         Volley.newRequestQueue(getApplicationContext()).add(request);
         }
+
+    public void getId(String email) {
+        String url = MethodsAPI.getUserByString(email);
+        String accessToken = intent.getStringExtra("accessToken");
+        System.out.println(accessToken);
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            JSONObject userObject = response.getJSONObject(0);
+                            String id = userObject.getString("id");
+                            Log.d("user_id", id);
+                            intent.putExtra("id", id);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        intent.setClass(Login.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+        };
+
+        // Add the request to the Volley request queue
+        Volley.newRequestQueue(getApplicationContext()).add(request);
+    }
 }
