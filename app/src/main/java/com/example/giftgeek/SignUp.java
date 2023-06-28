@@ -32,6 +32,8 @@ public class SignUp extends AppCompatActivity {
     EditText emailField;
     EditText passwordField;
 
+    Intent intent = new Intent();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,16 +79,13 @@ public class SignUp extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Intent intent = new Intent();
-
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         // Handle successful response
                         try {
-                            int id = response.getInt("id");
-                            Log.d("user_id", String.valueOf(id));
+                            int id = Integer.parseInt(response.getString("id"));
                             intent.putExtra("user_id", id);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -119,8 +118,6 @@ public class SignUp extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        Intent intent = new Intent();
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
                 new Response.Listener<JSONObject>() {

@@ -10,4 +10,8 @@
     <string name="buttonEditProfile">Edit Profile</string>
     <string name="buttonStats">Statistics</string>
     <string name="editProfile">Edit Profile</string>
+    <string name="newName">New Name</string>
+    <string name="newPassword">New Password</string>
+    <string name="newLastname">New Lastname</string>
+    <string name="done">Done</string>
 </resources>

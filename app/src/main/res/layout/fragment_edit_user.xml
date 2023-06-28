@@ -5,6 +5,70 @@
     android:layout_height="match_parent">
 
 
+    <Button
+        android:id="@+id/doneButton_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/done"
+        app:backgroundTint="#2196F3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_edit"
+        app:layout_constraintVertical_bias="0.748" />
+
+    <EditText
+        android:id="@+id/password_edit"
+        android:layout_width="235dp"
+        android:layout_height="39dp"
+        android:background="@drawable/edittext_rounded_blue"
+        android:ems="10"
+        android:hint="@string/newPassword"
+        android:inputType="textEmailAddress"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintVertical_bias="0.39" />
+
+    <EditText
+        android:id="@+id/lastname_edit"
+        android:layout_width="235dp"
+        android:layout_height="39dp"
+        android:background="@drawable/edittext_rounded_blue"
+        android:ems="10"
+        android:hint="@string/newLastname"
+        android:inputType="textEmailAddress"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintVertical_bias="0.243" />
+
+    <EditText
+        android:id="@+id/name_edit"
+        android:layout_width="235dp"
+        android:layout_height="39dp"
+        android:background="@drawable/edittext_rounded_blue"
+        android:ems="10"
+        android:hint="@string/newName"
+        android:inputType="textEmailAddress"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintVertical_bias="0.094" />
+
     <ImageView
         android:id="@+id/backButton_edit"
         android:layout_width="wrap_content"
