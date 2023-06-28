@@ -9,4 +9,5 @@
     <string name="buttonLogOut">Log Out</string>
     <string name="buttonEditProfile">Edit Profile</string>
     <string name="buttonStats">Statistics</string>
+    <string name="editProfile">Edit Profile</string>
 </resources>

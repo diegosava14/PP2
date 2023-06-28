@@ -118,9 +118,8 @@ public class Login extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         try {
                             JSONObject userObject = response.getJSONObject(0);
-                            String id = userObject.getString("id");
-                            Log.d("user_id", id);
-                            intent.putExtra("id", id);
+                            int id = Integer.parseInt(userObject.getString("id"));
+                            intent.putExtra("user_id", id);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
