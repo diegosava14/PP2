@@ -21,6 +21,12 @@ public class User {
         this.image = image;
     }
 
+    public User(String name) {
+        this.id = -1;
+        this.name = name;
+        this.lastName = this.email = this.password = this.image = "";
+    }
+
     public static User getUserFromJson(String response) throws JSONException {
         response = response.substring(1, response.length() - 1);
         JSONObject jsonObject = new JSONObject(response);

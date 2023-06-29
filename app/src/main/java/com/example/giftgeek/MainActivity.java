@@ -32,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch(item.getItemId()){
                 case R.id.search:
+                    Bundle bundle_search = new Bundle();
+                    bundle_search.putInt("user_id", getIntent().getIntExtra("user_id", 1));
+                    bundle_search.putString("accessToken", getIntent().getStringExtra("accessToken"));
+                    searchFragment.setArguments(bundle_search);
                     replaceFragment(searchFragment);
                     break;
                 case R.id.home:
