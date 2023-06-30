@@ -57,7 +57,10 @@ public class UserFragment extends Fragment {
         bundle_edit = new Bundle();
         bundle_stats = new Bundle();
 
-        setUserInfo();
+        name.setText(getArguments().getString("name"));
+        lastname.setText(getArguments().getString("lastname"));
+        email.setText(getArguments().getString("email"));
+
         getNumWishLists();
         getNumGifts();
 
@@ -100,49 +103,6 @@ public class UserFragment extends Fragment {
         });
 
         return view;
-    }
-
-    public void setUserInfo() {
-        String url = MethodsAPI.getUserById(getArguments().getInt("user_id"));
-        String accessToken = getArguments().getString("accessToken");
-        System.out.println(accessToken);
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // Handle successful response
-                        try {
-                            name.setText(response.getString("name"));
-                            lastname.setText(response.getString("last_name"));
-                            email.setText(response.getString("email"));
-
-                            bundle_edit.putString("name_OLD", response.getString("name"));
-                            bundle_edit.putString("lastname_OLD", response.getString("last_name"));
-                            bundle_edit.putString("email_OLD", response.getString("email"));
-                            bundle_edit.putString("password_OLD", response.getString("password"));
-                            bundle_edit.putString("image_OLD", getArguments().getString("image"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error.Response", error.toString());
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
-            }
-        };
-
-        // Add the request to the Volley request queue
-        Volley.newRequestQueue(getActivity().getApplicationContext()).add(request);
     }
 
     public void getNumWishLists() {

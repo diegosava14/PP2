@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                             bundle_user.putString("name", response.getString("name"));
                             bundle_user.putString("lastname", response.getString("last_name"));
                             bundle_user.putString("email", response.getString("email"));
+                            System.out.println(response.getString("password"));
                             bundle_user.putString("password", response.getString("password"));
                             bundle_user.putString("image", response.getString("image"));
                         } catch (JSONException e) {
