@@ -69,6 +69,7 @@ public class EditUserFragment extends Fragment {
                     Toast.makeText(getActivity().getApplicationContext(),
                             "Please fill any of the fields to edit them.", Toast.LENGTH_SHORT).show();
                     return;
+
                 }
 
                 if(firstName.isEmpty()){
