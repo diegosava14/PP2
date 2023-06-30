@@ -69,24 +69,23 @@ public class EditUserFragment extends Fragment {
                     Toast.makeText(getActivity().getApplicationContext(),
                             "Please fill any of the fields to edit them.", Toast.LENGTH_SHORT).show();
                     return;
-
                 }
 
                 if(firstName.isEmpty()){
-                    firstName = getArguments().getString("name_OLD");
+                    firstName = userFragmentBundle.getString("name");
                 }
                 if(lastName.isEmpty()){
-                    lastName = getArguments().getString("lastName_OLD");
+                    lastName = userFragmentBundle.getString("lastname");
                 }
                 if(password.isEmpty()){
-                    password = getArguments().getString("password_OLD");
+                    password = userFragmentBundle.getString("password");
                 }
 
                 userFragmentBundle.putString("password", password);
                 userFragmentBundle.putString("name", firstName);
                 userFragmentBundle.putString("lastname", lastName);
 
-                String email = getArguments().getString("email");
+                String email = userFragmentBundle.getString("email");
                 editUser(firstName, lastName, email, password);
             }
         });

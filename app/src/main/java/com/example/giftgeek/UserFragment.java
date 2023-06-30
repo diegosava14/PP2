@@ -61,12 +61,6 @@ public class UserFragment extends Fragment {
         lastname.setText(getArguments().getString("lastname"));
         email.setText(getArguments().getString("email"));
 
-        bundle_edit.putString("name_OLD", getArguments().getString("name"));
-        bundle_edit.putString("lastname_OLD", getArguments().getString("lastname"));
-        bundle_edit.putString("email_OLD", getArguments().getString("email"));
-        bundle_edit.putString("password_OLD", getArguments().getString("password"));
-        bundle_edit.putString("image_OLD", getArguments().getString("image"));
-
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
