@@ -13,5 +13,7 @@
     <string name="newName">New Name</string>
     <string name="newPassword">New Password</string>
     <string name="newLastname">New Lastname</string>
+    <string name="buttonWishlists">Wishlists</string>
+    <string name="buttonReservedGifts">Reserved Gifts</string>
     <string name="done">Done</string>
 </resources>

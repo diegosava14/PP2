@@ -39,6 +39,16 @@ public class User {
         return new User(id, name, lastName, email, password, image);
     }
 
+    public static User getUserFromJson(JSONObject o) throws JSONException {
+        int id = o.getInt("id");
+        String name = o.getString("name");
+        String lastName = o.getString("last_name");
+        String email = o.getString("email");
+        String password = "";
+        String image = o.getString("image");
+        return new User(id, name, lastName, email, password, image);
+    }
+
     public static JSONObject registerUserJson(String name, String lastName, String email, String password, String image) throws JSONException {
         JSONObject jsonBody = new JSONObject();
         try {
