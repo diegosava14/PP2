@@ -58,6 +58,9 @@ public class EditUserFragment extends Fragment {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle userFragmentBundle = getParentFragmentManager().findFragmentByTag("UserFragment")
+                        .getArguments();
+
                 String firstName = newName.getText().toString();
                 String lastName = newLastname.getText().toString();
                 String password = newPassword.getText().toString();
@@ -68,11 +71,21 @@ public class EditUserFragment extends Fragment {
                     return;
                 }
 
-                if(firstName.isEmpty()) firstName = getArguments().getString("name_OLD");
-                if(lastName.isEmpty()) lastName = getArguments().getString("lastName_OLD");
-                if(password.isEmpty()) password = getArguments().getString("password_OLD");
+                if(firstName.isEmpty()){
+                    firstName = userFragmentBundle.getString("name");
+                }
+                if(lastName.isEmpty()){
+                    lastName = userFragmentBundle.getString("lastname");
+                }
+                if(password.isEmpty()){
+                    password = userFragmentBundle.getString("password");
+                }
 
-                String email = getArguments().getString("email");
+                userFragmentBundle.putString("password", password);
+                userFragmentBundle.putString("name", firstName);
+                userFragmentBundle.putString("lastname", lastName);
+
+                String email = userFragmentBundle.getString("email");
                 editUser(firstName, lastName, email, password);
             }
         });

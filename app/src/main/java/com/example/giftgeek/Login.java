@@ -64,8 +64,8 @@ public class Login extends AppCompatActivity {
                 String email = emailField.getText().toString();
                 String password = passwordField.getText().toString();
 
-                signIn(email, password);
-                //signIn("dani-11@gmail.com", "password1");
+                //signIn(email, password);
+                signIn("dani-11@gmail.com", "password1");
                 //signIn("vladi.daddy@gmail.com", "ukraineLover");
             }
         });
@@ -88,6 +88,7 @@ public class Login extends AppCompatActivity {
                         // Handle successful response
                         try {
                             String accessToken = response.getString("accessToken");
+                            System.out.println(accessToken);
                             intent.putExtra("accessToken", accessToken);
                         } catch (JSONException e) {
                             e.printStackTrace();
