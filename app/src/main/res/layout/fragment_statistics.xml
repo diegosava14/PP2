@@ -5,6 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/backButton_stats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="Back"
+        android:onClick="onButtonClick"
+        android:src="@drawable/ic_baseline_arrow_back_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.041"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.022" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,6 +37,7 @@
 
     <TextView
         android:id="@+id/num_wishlists_text"
+        android:textColor="#FFFFFF"
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:layout_marginTop="160dp"
@@ -37,6 +53,7 @@
 
     <TextView
         android:id="@+id/num_wishes_text"
+        android:textColor="#FFFFFF"
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
@@ -52,6 +69,7 @@
 
     <TextView
         android:id="@+id/reserved_gifts_text"
+        android:textColor="#FFFFFF"
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
@@ -67,6 +85,8 @@
         app:layout_constraintTop_toBottomOf="@+id/num_wishes_text" />
 
     <TextView
+        android:id="@+id/num_wishlists"
+        android:textColor="#FFFFFF"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="10dp"
@@ -74,10 +94,13 @@
         android:gravity="center"
         android:padding="6dp"
         android:text="0"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/num_wishlists_text"
         app:layout_constraintTop_toTopOf="@+id/num_wishlists_text" />
 
     <TextView
+        android:id="@+id/num_wishes"
+        android:textColor="#FFFFFF"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="10dp"
@@ -85,10 +108,13 @@
         android:gravity="center"
         android:padding="6dp"
         android:text="0"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/num_wishes_text"
         app:layout_constraintTop_toTopOf="@+id/num_wishes_text" />
 
     <TextView
+        android:id="@+id/num_gifts"
+        android:textColor="#FFFFFF"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="10dp"
@@ -96,6 +122,7 @@
         android:gravity="center"
         android:padding="6dp"
         android:text="0"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/reserved_gifts_text"
         app:layout_constraintTop_toTopOf="@+id/reserved_gifts_text" />
 

@@ -15,14 +15,16 @@
         <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/layout/activity_login.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/layout/activity_signup.xml" value="0.3359375" />
+        <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/layout/fragment_edit_user.xml" value="0.25226449275362317" />
         <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/layout/fragment_search.xml" value="0.33" />
+        <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/layout/fragment_statistics.xml" value="0.24909420289855072" />
         <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/layout/fragment_user.xml" value="0.33" />
         <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/layout/fragment_wish_list.xml" value="0.22146739130434784" />
         <entry key="..\:/Users/diego/AndroidStudioProjects/GiftGeek/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3453125" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
