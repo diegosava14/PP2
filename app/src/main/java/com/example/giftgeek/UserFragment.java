@@ -21,6 +21,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.giftgeek.API.MethodsAPI;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +31,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserFragment extends Fragment {
+    private ImageView profilePic;
+    String url_pic;
     private TextView email;
     private TextView name;
     private TextView lastname;
@@ -46,6 +49,8 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
+        profilePic = view.findViewById(R.id.profile_pic_user);
+
         email = view.findViewById(R.id.email_textview);
         name = view.findViewById(R.id.name_textview);
         lastname = view.findViewById(R.id.lastname_textview);
@@ -60,6 +65,14 @@ public class UserFragment extends Fragment {
         name.setText(getArguments().getString("name"));
         lastname.setText(getArguments().getString("lastname"));
         email.setText(getArguments().getString("email"));
+
+        url_pic = getArguments().getString("image");
+
+        try{
+            Picasso.with(getActivity()).load(url_pic).resize(200, 200).into(profilePic);
+        }catch(Exception e){
+            profilePic.setImageResource(R.drawable.ic_baseline_account_circle_24);
+        }
 
         getNumWishLists();
         getNumGifts();

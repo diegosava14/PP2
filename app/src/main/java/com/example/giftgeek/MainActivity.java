@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setUserInfo() {
+        System.out.println(getIntent().getIntExtra("user_id", 1));
         String url = MethodsAPI.getUserById(getIntent().getIntExtra("user_id", 1));
         String accessToken = getIntent().getStringExtra("accessToken");
         System.out.println(accessToken);
@@ -99,9 +100,8 @@ public class MainActivity extends AppCompatActivity {
                             bundle_user.putString("name", response.getString("name"));
                             bundle_user.putString("lastname", response.getString("last_name"));
                             bundle_user.putString("email", response.getString("email"));
-                            System.out.println(response.getString("password"));
-                            bundle_user.putString("password", response.getString("password"));
                             bundle_user.putString("image", response.getString("image"));
+                            bundle_user.putString(getIntent().getStringExtra("password"), "password");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
