@@ -1,6 +1,5 @@
 package com.example.giftgeek;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,9 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -30,12 +32,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EditUserFragment extends Fragment {
+    Boolean selected = false;
 
+    String image;
     ImageView backButton;
 
     Button doneButton;
 
     EditText newName, newLastname, newPassword;
+
+    Spinner spinner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +53,29 @@ public class EditUserFragment extends Fragment {
         newName = view.findViewById(R.id.name_edit);
         newLastname = view.findViewById(R.id.lastname_edit);
         newPassword = view.findViewById(R.id.password_edit);
+
+        spinner = view.findViewById(R.id.spinner_edit);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.dropdown_items, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                image = parent.getItemAtPosition(position).toString();
+                selected = true;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selected = false;
+            }
+        });
+
+
+
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,11 +90,15 @@ public class EditUserFragment extends Fragment {
                 Bundle userFragmentBundle = getParentFragmentManager().findFragmentByTag("UserFragment")
                         .getArguments();
 
+                String image_url = MethodsAPI.getUrlPic(image);
                 String firstName = newName.getText().toString();
                 String lastName = newLastname.getText().toString();
                 String password = newPassword.getText().toString();
 
-                if (firstName.isEmpty() && lastName.isEmpty() && password.isEmpty()) {
+                Log.d("Image", image);
+
+                if (firstName.isEmpty() && lastName.isEmpty() && password.isEmpty() &&
+                        (selected == false || image.equals("Select a profile picture"))) {
                     Toast.makeText(getActivity().getApplicationContext(),
                             "Please fill any of the fields to edit them.", Toast.LENGTH_SHORT).show();
                     return;
@@ -80,13 +113,17 @@ public class EditUserFragment extends Fragment {
                 if(password.isEmpty()){
                     password = userFragmentBundle.getString("password");
                 }
+                if(selected == false || image.equals("Select a profile picture")){
+                    image_url = userFragmentBundle.getString("image");
+                }
 
                 userFragmentBundle.putString("password", password);
                 userFragmentBundle.putString("name", firstName);
                 userFragmentBundle.putString("lastname", lastName);
+                userFragmentBundle.putString("image", image_url);
 
                 String email = userFragmentBundle.getString("email");
-                editUser(firstName, lastName, email, password);
+                editUser(firstName, lastName, email, password, image_url);
             }
         });
 
@@ -94,7 +131,7 @@ public class EditUserFragment extends Fragment {
     }
 
 
-    public void editUser(String firstName,String lastName, String email, String password) {
+    public void editUser(String firstName,String lastName, String email, String password, String image_url) {
         String url = MethodsAPI.URL_REGISTER;
         String accessToken = getArguments().getString("accessToken");
         System.out.println(accessToken);
@@ -102,7 +139,7 @@ public class EditUserFragment extends Fragment {
         JSONObject requestBody = new JSONObject();
 
         try {
-            requestBody = User.registerUserJson(firstName, lastName, email, password, "image");
+            requestBody = User.registerUserJson(firstName, lastName, email, password, image_url);
         } catch (JSONException e) {
             e.printStackTrace();
         }
