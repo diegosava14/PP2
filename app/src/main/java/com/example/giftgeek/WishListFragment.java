@@ -334,7 +334,7 @@ public class WishListFragment extends Fragment implements AddWishlistDialogFragm
 
         try {
             JSONObject requestBody = new JSONObject();
-            requestBody.put("title", title);
+            requestBody.put("name", title);
             requestBody.put("description", description);
             requestBody.put("expiry_date", expiryDate);
             requestBody.put("user_id", getUserId());
