@@ -129,6 +129,21 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
 
     private void addGift(Gift gift) {
         // Add the new gift to the local list and notify the adapter
+
+        int priorityInt = Integer.parseInt(gift.getPriority());
+        if (priorityInt >= 0 && priorityInt < 4) {
+            gift.setPriority("LOW");
+        } else {
+            if (priorityInt >= 4 && priorityInt < 7) {
+                gift.setPriority("MEDIUM");
+            } else {
+                if (priorityInt >= 7 && priorityInt <= 10) {
+                    gift.setPriority("HIGH");
+                } else {
+                    gift.setPriority("LOW");
+                }
+            }
+        }
         giftList.add(gift);
         giftAdapter.notifyDataSetChanged();
     }
@@ -188,12 +203,28 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
                                 int giftId = giftObject.getInt("id");
                                 int wishlistId = giftObject.getInt("wishlist_id");
                                 String productUrl = giftObject.getString("product_url");
-                                int priority;
+                                String priority;
                                 if (giftObject.isNull("priority")) {
-                                    priority = 0; // Assign a default value or handle the null case
+                                    priority = "0"; // Assign a default value or handle the null case
                                 } else {
-                                    priority = giftObject.getInt("priority");
+                                    priority = giftObject.getString("priority");
                                 }
+
+                                int priorityInt = Integer.parseInt(priority);
+                                if (priorityInt >= 0 && priorityInt < 4) {
+                                    priority = "LOW"; // Assign a default value or handle the invalid case
+                                } else {
+                                    if (priorityInt >= 4 && priorityInt < 7) {
+                                        priority = "MEDIUM"; // Assign a default value or handle the invalid case
+                                    } else {
+                                        if (priorityInt >= 7 && priorityInt <= 10) {
+                                            priority = "HIGH"; // Assign a default value or handle the invalid case
+                                        } else {
+                                            priority = "LOW"; // Assign a default value or handle the invalid case
+                                        }
+                                    }
+                                }
+
                                 int booked_int = giftObject.getInt("booked");
 
                                 boolean booked = false;
@@ -274,11 +305,11 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
 
         if (giftToEdit != null) {
             // Create a new instance of the AddGiftDialogFragment
-            AddGiftDialogFragment dialogFragment = new AddGiftDialogFragment();
+            EditGiftDialogFragment dialogFragment = new EditGiftDialogFragment();
 
             // Set the listener to the GiftFragment
             Gift finalGiftToEdit = giftToEdit;
-            dialogFragment.setOnGiftAddedListener(new AddGiftDialogFragment.OnGiftAddedListener() {
+            dialogFragment.setOnGiftAddedListener(new EditGiftDialogFragment.OnGiftAddedListener() {
 
                 @Override
                 public void onGiftAdded(Gift gift) {
@@ -299,7 +330,7 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
             // Pass the existing gift's information to the dialog
             Bundle bundle = new Bundle();
             bundle.putString("productUrl", giftToEdit.getProductUrl());
-            bundle.putInt("priority", giftToEdit.getPriority());
+            bundle.putString("priority", giftToEdit.getPriority());
             dialogFragment.setArguments(bundle);
 
             // Show the dialog

@@ -15,7 +15,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.giftgeek.Entities.Gift;
 
-public class AddGiftDialogFragment extends DialogFragment {
+public class EditGiftDialogFragment extends DialogFragment {
 
     private EditText giftUrlEditText;
     private EditText giftPriorityEditText;
@@ -36,7 +36,7 @@ public class AddGiftDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Add Gift");
+        builder.setTitle("Edit Gift");
 
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_add_gift, null);
@@ -44,7 +44,7 @@ public class AddGiftDialogFragment extends DialogFragment {
         giftPriorityEditText = view.findViewById(R.id.giftPriorityEditText);
 
         builder.setView(view)
-                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String url = giftUrlEditText.getText().toString();

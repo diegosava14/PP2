@@ -111,10 +111,17 @@ public class WishListFragment extends Fragment implements AddWishlistDialogFragm
 
                                 String title = wishlistObject.getString("name");
                                 String description = wishlistObject.getString("description");
-                                String expiryDate = wishlistObject.getString("end_date");
+                                String expiryDate1 = wishlistObject.getString("end_date");
+                                String expiryDate2;
+                                if (expiryDate1.length() > 10) {
+                                    expiryDate2 = expiryDate1.substring(0, expiryDate1.indexOf("T"));
+                                } else {
+                                    expiryDate2 = null;
+                                }
                                 int userId = wishlistObject.getInt("user_id");
                                 int wishlistId = wishlistObject.getInt("id");
                                 String creationDate = wishlistObject.getString("creation_date");
+
 
                                 JSONArray giftsArray = wishlistObject.getJSONArray("gifts");
                                 List<Gift> gifts = new ArrayList<>();
@@ -124,11 +131,25 @@ public class WishListFragment extends Fragment implements AddWishlistDialogFragm
                                     int giftId = giftObject.getInt("id");
                                     wishlistId = giftObject.getInt("wishlist_id");
                                     String productUrl = giftObject.getString("product_url");
-                                    int priority;
+                                    String priority;
                                     if (giftObject.isNull("priority")) {
-                                        priority = 0; // Assign a default value or handle the null case
+                                        priority = "0"; // Assign a default value or handle the null case
                                     } else {
-                                        priority = giftObject.getInt("priority");
+                                        priority = giftObject.getString("priority");
+                                    }
+                                    int priorityInt = Integer.parseInt(priority);
+                                    if (priorityInt >= 0 && priorityInt < 4) {
+                                        priority = "LOW"; // Assign a default value or handle the invalid case
+                                    } else {
+                                        if (priorityInt >= 4 && priorityInt < 7) {
+                                            priority = "MEDIUM"; // Assign a default value or handle the invalid case
+                                        } else {
+                                            if (priorityInt >= 7 && priorityInt <= 10) {
+                                                priority = "HIGH"; // Assign a default value or handle the invalid case
+                                            } else {
+                                                priority = "LOW"; // Assign a default value or handle the invalid case
+                                            }
+                                        }
                                     }
                                     int booked_int = giftObject.getInt("booked");
 
@@ -142,7 +163,7 @@ public class WishListFragment extends Fragment implements AddWishlistDialogFragm
                                 }
 
                                 if (userId == getUserId()) {
-                                    wishlist.add(new Wishlist(title, description, expiryDate, userId, wishlistId, creationDate, gifts));
+                                    wishlist.add(new Wishlist(title, description, expiryDate2, userId, wishlistId, creationDate, gifts));
                                 }
                             }
 
@@ -215,11 +236,11 @@ public class WishListFragment extends Fragment implements AddWishlistDialogFragm
 
         if (wishlistToEdit != null) {
             // Create a new instance of the AddWishlistDialogFragment
-            AddWishlistDialogFragment dialogFragment = new AddWishlistDialogFragment();
+            EditWishlistDialogFragment dialogFragment = new EditWishlistDialogFragment();
 
             // Set the listener to the WishListFragment
             Wishlist finalWishlistToEdit = wishlistToEdit;
-            dialogFragment.setListener(new AddWishlistDialogFragment.AddWishlistDialogListener() {
+            dialogFragment.setListener(new EditWishlistDialogFragment.EditWishlistDialogListener() {
                 @Override
                 public void onWishlistAdded(String title, String description, String expiryDate, int userId, String creationDate) {
                     // Update the wishlist's information
