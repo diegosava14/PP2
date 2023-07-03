@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.giftgeek.API.MethodsAPI;
+import com.example.giftgeek.RecyclerView.OtherWishListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -79,9 +80,19 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        Bundle wishListBundle = new Bundle();
+        wishListBundle.putInt("other_user_id", getArguments().getInt("other_user_id"));
+        wishListBundle.putString("accessToken", getArguments().getString("accessToken"));
         wishlistsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                OtherWishlistsFragment otherWishlistsFragment = new OtherWishlistsFragment();
+                otherWishlistsFragment.setArguments(wishListBundle);
+
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.frame_layout, otherWishlistsFragment)
+                        .addToBackStack(null)
+                        .commit();
 
             }
         });
