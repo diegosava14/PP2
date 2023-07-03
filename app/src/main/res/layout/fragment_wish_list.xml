@@ -8,22 +8,28 @@
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="WISHLISTS"
-        android:textSize="24sp"
-        android:layout_margin="16dp" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Wishlists"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <!-- Scrollable Panel -->
 
     <Button
         android:id="@+id/addButton"
-        android:layout_width="wrap_content"
+        android:layout_width="43dp"
         android:layout_height="wrap_content"
-        android:text="+"
-        android:textSize="24sp"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="27dp"
+        android:text="+"
+        android:textSize="24sp" />
 
-    <!-- Scrollable Panel -->
     <ScrollView
         android:layout_below="@id/titleTextView"
         android:layout_width="match_parent"

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,7 +40,7 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
     private TextView wishlistTitleTextView;
     private RecyclerView giftRecyclerView;
     private GiftAdapter giftAdapter;
-    private Button backButton;
+    private ImageView backButton;
     private Button addGiftButton;
 
     private Wishlist wishlist;
@@ -73,11 +74,14 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
         View view = inflater.inflate(R.layout.fragment_gift, container, false);
         wishlistTitleTextView = view.findViewById(R.id.wishlistTitleTextView);
         giftRecyclerView = view.findViewById(R.id.giftRecyclerView);
-        backButton = view.findViewById(R.id.backButton);
+        backButton = view.findViewById(R.id.backButton_gift);
         addGiftButton = view.findViewById(R.id.addGiftButton);
 
-        backButton.setOnClickListener(v -> {
-            requireActivity().onBackPressed();
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
         });
 
         addGiftButton.setOnClickListener(v -> {
