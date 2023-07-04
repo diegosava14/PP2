@@ -31,15 +31,7 @@
         android:layout_toEndOf="@+id/reserved_gift_image"
         android:layout_below="@id/reserved_gift_name"
         android:textColor="@color/black"
-        tools:text="example@email.com" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="2dp"
-        android:layout_below="@id/reserved_gift_image"
-        android:background="#DAD8D8"
-        />
+        tools:text="description" />
 
 
 </RelativeLayout>

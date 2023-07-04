@@ -170,26 +170,6 @@ public class OtherWishlistsFragment extends Fragment {
 
         Volley.newRequestQueue(requireContext()).add(request);
     }
-
-    /*
-
-    private int getUserId() {
-        int userId = -1; // Default value if ID is not found
-        if (getActivity() != null && getActivity().getIntent() != null) {
-            userId = getActivity().getIntent().getIntExtra("user_id", -1);
-        }
-        return userId;
-    }
-
-    private String getToken() {
-        String token = ""; // Default value if token is not found
-        if (getActivity() != null && getActivity().getIntent() != null) {
-            token = getActivity().getIntent().getStringExtra("accessToken");
-        }
-        return token;
-    }
-
-     */
 }
 
 

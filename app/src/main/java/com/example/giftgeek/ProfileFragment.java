@@ -97,10 +97,19 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        Bundle reservedGiftBundle = new Bundle();
+        reservedGiftBundle.putInt("other_user_id", getArguments().getInt("other_user_id"));
+        reservedGiftBundle.putString("accessToken", getArguments().getString("accessToken"));
         reservedGiftsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ReservedGiftsFragment reservedGiftsFragment = new ReservedGiftsFragment();
+                reservedGiftsFragment.setArguments(reservedGiftBundle);
 
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.frame_layout, reservedGiftsFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
