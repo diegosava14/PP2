@@ -19,7 +19,6 @@ public class EditGiftDialogFragment extends DialogFragment {
 
     private EditText giftUrlEditText;
     private EditText giftPriorityEditText;
-    private int wishlistId;
     private OnGiftAddedListener onGiftAddedListener;
 
     public interface OnGiftAddedListener {
@@ -47,11 +46,11 @@ public class EditGiftDialogFragment extends DialogFragment {
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String url = giftUrlEditText.getText().toString();
+                        String url = getArguments().getString("productUrl");
                         int priority = Integer.parseInt(giftPriorityEditText.getText().toString());
 
                         // Create a new Gift object with the entered name and description
-                        Gift newGift = new Gift(1, wishlistId, url, priority, false);
+                        Gift newGift = new Gift(getArguments().getInt("giftId"), getArguments().getInt("wishlistId"), url, priority, false);
 
                         // Pass the new gift object to the listener
                         if (onGiftAddedListener != null) {
@@ -73,7 +72,7 @@ public class EditGiftDialogFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            wishlistId = getArguments().getInt("wishlistId");
+            //wishlistId = getArguments().getInt("wishlistId");
         }
     }
 

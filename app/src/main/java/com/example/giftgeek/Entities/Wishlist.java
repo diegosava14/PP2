@@ -87,6 +87,7 @@ public class Wishlist implements Parcelable {
         return creationDate;
     }
 
+
     @Override
     public int describeContents() {
         return 0;

@@ -308,19 +308,15 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
             EditGiftDialogFragment dialogFragment = new EditGiftDialogFragment();
 
             // Set the listener to the GiftFragment
-            Gift finalGiftToEdit = giftToEdit;
             dialogFragment.setOnGiftAddedListener(new EditGiftDialogFragment.OnGiftAddedListener() {
 
                 @Override
                 public void onGiftAdded(Gift gift) {
-                    // Update the gift's information
-                    finalGiftToEdit.setProductUrl(gift.getProductUrl());
-                    finalGiftToEdit.setPriority(gift.getPriority());
-
                     // Update the gift on the API
-                    updateGift(finalGiftToEdit, new GiftUpdateListener() {
+                    updateGift(gift, new GiftUpdateListener() {
                         @Override
                         public void onGiftUpdated() {
+                            loadGifts();
                             giftAdapter.notifyDataSetChanged();
                         }
                     });
@@ -331,6 +327,8 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
             Bundle bundle = new Bundle();
             bundle.putString("productUrl", giftToEdit.getProductUrl());
             bundle.putString("priority", giftToEdit.getPriority());
+            bundle.putInt("wishlistId", giftToEdit.getWishlistId());
+            bundle.putInt("giftId", giftToEdit.getId());
             dialogFragment.setArguments(bundle);
 
             // Show the dialog
@@ -344,16 +342,21 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
 
     private void updateGift(Gift gift, GiftUpdateListener giftUpdateListener) {
         String url = MethodsAPI.URL_BASE + "gifts/" + gift.getId();
-        String token = getToken(); // Replace with the actual token
+        String token = getToken();
 
         try {
+            System.out.println(gift.getId());
+            System.out.println(gift.getWishlistId());
+            System.out.println(gift.getProductUrl());
+            System.out.println(gift.getPriorityInt());
+            System.out.println(gift.isBooked());
+
             JSONObject requestBody = new JSONObject();
             requestBody.put("id", gift.getId());
             requestBody.put("wishlist_id", gift.getWishlistId());
             requestBody.put("product_url", gift.getProductUrl());
-            requestBody.put("priority", gift.getPriority());
+            requestBody.put("priority", gift.getPriorityInt());
             requestBody.put("booked", gift.isBooked());
-            // Add other fields as needed
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, requestBody,
                     new Response.Listener<JSONObject>() {
@@ -371,7 +374,7 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", "Bearer " + token); // Include the token in the request headers
+                    headers.put("Authorization", "Bearer " + token);
                     return headers;
                 }
             };

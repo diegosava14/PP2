@@ -38,7 +38,6 @@ public class WishListFragment extends Fragment implements AddWishlistDialogFragm
     private RecyclerView wishlistRecyclerView;
     private WishListAdapter wishlistAdapter;
     private List<Wishlist> wishlist;
-
     public WishListFragment() {
         // Required empty public constructor
     }
@@ -179,10 +178,12 @@ public class WishListFragment extends Fragment implements AddWishlistDialogFragm
     }
 
 
-
-
-
     private void deleteWishlist(int wishlistId, int position) {
+
+        for (int i = 0; i < wishlist.get(position).getGifts().size(); i++) {
+            deleteWish(wishlist.get(position).getGifts().get(i));
+        }
+
         String url = MethodsAPI.URL_BASE + "wishlists/" + wishlistId;
         String token = getToken();
 
@@ -208,8 +209,37 @@ public class WishListFragment extends Fragment implements AddWishlistDialogFragm
                 return headers;
             }
         };
+        Volley.newRequestQueue(requireContext()).add(request);
+    }
+
+    private void deleteWish(Gift gift) {
+        String url = MethodsAPI.URL_BASE + "gifts/" + gift.getId();
+        String token = getToken(); // Replace with the actual token
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        // Handle the error if needed
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token); // Include the token in the request headers
+                return headers;
+            }
+        };
 
         Volley.newRequestQueue(requireContext()).add(request);
+        //while (!done) {
+        //}
     }
 
     private void editWishlist(int wishlistId) {

@@ -1,77 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- gift_item.xml -->
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:padding="16dp">
+    android:layout_marginTop="10dp"
+    android:id="@+id/relative_layout"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:layout_width="0dp"
+
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/other_gift_image_view"
+        android:layout_marginRight="10dp"
+        android:layout_centerVertical="true"
+        />
+
+    <TextView
+        android:id="@+id/other_gift_name"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:textSize="20dp"
+        android:layout_toEndOf="@+id/other_gift_image_view"
+        android:textColor="@color/black"
+        tools:text="name" />
 
-        <TextView
-            android:id="@+id/otherPriorityTitleTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:text="Priority: "
-            android:textColor="@android:color/black" />
+    <TextView
+        android:id="@+id/other_gift_description"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/other_gift_image_view"
+        android:layout_below="@id/other_gift_name"
+        android:textColor="@color/black"
+        tools:text="Description" />
 
-        <TextView
-            android:id="@+id/otherPriorityTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/black" />
+    <TextView
+        android:id="@+id/other_gift_price"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/other_gift_image_view"
+        android:layout_below="@id/other_gift_description"
+        android:textColor="@color/black"
+        tools:text="Price" />
 
-        <TextView
-            android:id="@+id/otherProductUrlTitleTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:text="Product URL: "
-            android:textColor="@android:color/black" />
+    <TextView
+        android:id="@+id/priority"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/other_gift_image_view"
+        android:layout_below="@id/other_gift_price"
+        android:textColor="@color/black"
+        tools:text="Priority" />
 
-        <TextView
-            android:id="@+id/otherProductUrlTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/holo_blue_dark" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
+    <Button
+        android:id="@+id/reserveGiftButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignTop="@+id/other_gift_description"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-13dp"
+        android:layout_marginEnd="12dp"
+        android:text="Reserve"
+        app:backgroundTint="#2196F3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.748" />
 
-        <Button
-            android:id="@+id/reserveGiftButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reserve"
-            app:backgroundTint="#2196F3"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password_edit"
-            app:layout_constraintVertical_bias="0.748" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/priority"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
