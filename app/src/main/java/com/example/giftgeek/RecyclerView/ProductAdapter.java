@@ -58,7 +58,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             // Bind the product data to the views
             productNameTextView.setText(product.getName());
             productDescriptionTextView.setText(product.getDescription());
-            productPriceTextView.setText(String.valueOf(product.getPrice()));
+            productPriceTextView.setText(String.valueOf(product.getPrice())+" €");
         }
     }
 }

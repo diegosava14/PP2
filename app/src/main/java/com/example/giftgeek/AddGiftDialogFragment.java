@@ -129,34 +129,27 @@ public class AddGiftDialogFragment extends DialogFragment {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        try {
-                            products.clear(); // Clear the existing gift names
+                        products.clear(); // Clear the existing gift names
 
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject giftObject = response.getJSONObject(i);
-                                String giftName = giftObject.getString("name");
-                                String giftDescription = giftObject.getString("description");
-                                Double giftPrice = giftObject.getDouble("price");
-                                String url = giftObject.getString("link");
-                                String giftImage = giftObject.getString("photo");
-
-                                Product product = new Product(giftName, giftDescription, giftPrice, url, giftImage);
-                                products.add(product);
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject o = response.getJSONObject(i);
+                                products.add(Product.getProductFromJson(o));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
+                        }
 
-                            ProductAdapter adapter = new ProductAdapter(products);
+                        ProductAdapter adapter = new ProductAdapter(products);
 
-                            ListView listView = new ListView(requireContext());
-                            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-                            listView.setAdapter((ListAdapter) adapter);
-                            listView.setItemChecked(0, true);
+                        ListView listView = new ListView(requireContext());
+                        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                        listView.setAdapter((ListAdapter) adapter);
+                        listView.setItemChecked(0, true);
 
-                            AlertDialog dialog = (AlertDialog) getDialog();
-                            if (dialog != null) {
-                                dialog.getListView().addHeaderView(listView);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        AlertDialog dialog = (AlertDialog) getDialog();
+                        if (dialog != null) {
+                            dialog.getListView().addHeaderView(listView);
                         }
                     }
                 },
