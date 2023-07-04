@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.giftgeek.API.MethodsAPI;
+import com.example.giftgeek.Entities.Gift;
 import com.example.giftgeek.Entities.Product;
 import com.example.giftgeek.Entities.User;
 import com.example.giftgeek.RecyclerView.ProductAdapter;
@@ -35,8 +36,9 @@ public class ProductListFragment extends Fragment {
     private RecyclerView recyclerView;
     private ProductAdapter productAdapter;
     private List<Product> productList;
-
     private ImageView backButton;
+    private AddGiftDialogFragment addGiftDialogFragment;
+    private AddGiftDialogFragment.OnGiftAddedListener onGiftAddedListener;
     public ProductListFragment() {
         // Required empty public constructor
     }
@@ -52,7 +54,13 @@ public class ProductListFragment extends Fragment {
         productAdapter = new ProductAdapter(getActivity(), productList, new ProductAdapter.ProductClickedListener() {
             @Override
             public void onProductClicked(Product product) {
-                System.out.println("product clicked");
+                String url = MethodsAPI.URL_PRODUCTS + "/" + product.getId();
+                Bundle bundle = new Bundle();
+                bundle.putString("url", url);
+                addGiftDialogFragment = new AddGiftDialogFragment();
+                addGiftDialogFragment.setArguments(bundle);
+                addGiftDialogFragment.setOnGiftAddedListener(onGiftAddedListener);
+                addGiftDialogFragment.show(getActivity().getSupportFragmentManager(), "add gift");
             }
         });
     }
@@ -108,5 +116,9 @@ public class ProductListFragment extends Fragment {
         };
 
         Volley.newRequestQueue(getActivity().getApplicationContext()).add(request);
+    }
+
+    public void setListener (AddGiftDialogFragment.OnGiftAddedListener listener) {
+        this.onGiftAddedListener = listener;
     }
 }

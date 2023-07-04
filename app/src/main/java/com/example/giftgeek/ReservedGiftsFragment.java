@@ -100,20 +100,6 @@ public class ReservedGiftsFragment extends Fragment {
                                 } else {
                                     priorityInt = giftObject.getInt("priority");
                                 }
-                                String priority;
-                                if (priorityInt >= 0 && priorityInt < 4) {
-                                    priority = "LOW";
-                                } else {
-                                    if (priorityInt >= 4 && priorityInt < 7) {
-                                        priority = "MEDIUM";
-                                    } else {
-                                        if (priorityInt >= 7 && priorityInt <= 10) {
-                                            priority = "HIGH";
-                                        } else {
-                                            priority = "LOW";
-                                        }
-                                    }
-                                }
                                 int booked_int = giftObject.getInt("booked");
 
                                 boolean booked = false;
@@ -121,7 +107,7 @@ public class ReservedGiftsFragment extends Fragment {
                                     booked = true;
                                 }
 
-                                Gift gift = new Gift(giftId, wishlistId, productUrl, priority, booked);
+                                Gift gift = new Gift(giftId, wishlistId, productUrl, priorityInt, booked);
                                 gifts.add(gift);
                                 //System.out.println();
 

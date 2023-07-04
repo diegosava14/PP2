@@ -138,19 +138,7 @@ public class WishListFragment extends Fragment implements AddWishlistDialogFragm
                                         priority = giftObject.getString("priority");
                                     }
                                     int priorityInt = Integer.parseInt(priority);
-                                    if (priorityInt >= 0 && priorityInt < 4) {
-                                        priority = "LOW"; // Assign a default value or handle the invalid case
-                                    } else {
-                                        if (priorityInt >= 4 && priorityInt < 7) {
-                                            priority = "MEDIUM"; // Assign a default value or handle the invalid case
-                                        } else {
-                                            if (priorityInt >= 7 && priorityInt <= 10) {
-                                                priority = "HIGH"; // Assign a default value or handle the invalid case
-                                            } else {
-                                                priority = "LOW"; // Assign a default value or handle the invalid case
-                                            }
-                                        }
-                                    }
+
                                     int booked_int = giftObject.getInt("booked");
 
                                     boolean booked = false;
@@ -158,7 +146,7 @@ public class WishListFragment extends Fragment implements AddWishlistDialogFragm
                                         booked = true;
                                     }
 
-                                    Gift gift = new Gift(giftId, wishlistId, productUrl, priority, booked);
+                                    Gift gift = new Gift(giftId, wishlistId, productUrl, priorityInt, booked);
                                     gifts.add(gift);
                                 }
 

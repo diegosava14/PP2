@@ -68,42 +68,24 @@ public class AddGiftDialogFragment extends DialogFragment {
 
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_add_gift, null);
-        //giftUrl = view.findViewById(R.id.giftUrlEditText);
+        giftUrl = getArguments().getString("url");
         giftPriorityEditText = view.findViewById(R.id.giftPriorityEditText);
 
         builder.setView(view)
                 .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String priority = giftPriorityEditText.getText().toString();
 
-                        ListView listView = ((AlertDialog) dialog).getListView();
-                        int selectedIndex = listView.getCheckedItemPosition();
-                        if (selectedIndex != ListView.INVALID_POSITION) {
-                            Product selectedProduct = products.get(selectedIndex);
-                            String url = selectedProduct.getUrl();
+                        // Create a new Gift object
+                        Gift gift = new Gift(1, 1, giftUrl, Integer.parseInt(giftPriorityEditText.getText().toString()), false);
 
-                            // Update the giftUrl string with the selected product's URL
-                            giftUrl = url;
-
-                            // Create a new Gift object
-                            Gift gift = new Gift(1, 1, url, priority, false);
-
-                            // Pass the selected gift object to the listener
-                            if (onGiftAddedListener != null) {
-                                onGiftAddedListener.onGiftAdded(gift);
-                            }
+                        // Pass the selected gift object to the listener
+                        if (onGiftAddedListener != null) {
+                            onGiftAddedListener.onGiftAdded(gift);
                         }
-
-                        // Open the new fragment to display the product list
-                        ProductListFragment productListFragment = new ProductListFragment();
-                        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                        transaction.replace(R.id.product_list, productListFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+                        getActivity().onBackPressed();
                     }
                 })
-
 
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override

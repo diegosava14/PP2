@@ -48,7 +48,7 @@ public class EditGiftDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String url = giftUrlEditText.getText().toString();
-                        String priority = giftPriorityEditText.getText().toString();
+                        int priority = Integer.parseInt(giftPriorityEditText.getText().toString());
 
                         // Create a new Gift object with the entered name and description
                         Gift newGift = new Gift(1, wishlistId, url, priority, false);

@@ -5,14 +5,32 @@ public class Gift {
     private int wishlistId;
     private String productUrl;
     private String priority;
+    private int priorityInt;
     private boolean booked;
 
-    public Gift(int id, int wishlistId, String productUrl, String priority, boolean booked) {
+    public Gift(int id, int wishlistId, String productUrl, int priorityInt, boolean booked) {
         this.id = id;
         this.wishlistId = wishlistId;
         this.productUrl = productUrl;
-        this.priority = priority;
+        this.priority = getPriorityString(priorityInt);
+        this.priorityInt = priorityInt;
         this.booked = booked;
+    }
+
+    private String getPriorityString(int priorityInt) {
+        if (priorityInt >= 0 && priorityInt < 4) {
+            return "LOW";
+        } else {
+            if (priorityInt >= 4 && priorityInt < 7) {
+                return "MEDIUM";
+            } else {
+                if (priorityInt >= 7 && priorityInt <= 10) {
+                    return "HIGH";
+                } else {
+                    return "LOW";
+                }
+            }
+        }
     }
 
     public int getId() {
@@ -41,6 +59,18 @@ public class Gift {
 
     public void setPriority(String priority) {
         this.priority = priority;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setWishlistId(int wishlistId) {
+        this.wishlistId = wishlistId;
+    }
+
+    public int getPriorityInt() {
+        return priorityInt;
     }
 }
 

@@ -87,6 +87,7 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
         addGiftButton.setOnClickListener(v -> {
             //showAddGiftDialog();
             ProductListFragment productListFragment = new ProductListFragment();
+            productListFragment.setListener(this);
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.frame_layout, productListFragment)
                     .addToBackStack(null)
@@ -100,24 +101,14 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         wishlistTitleTextView.setText(wishlist.getName());
-
         giftRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         giftRecyclerView.setAdapter(giftAdapter);
-
         loadGifts();
-    }
-
-    private void showAddGiftDialog() {
-        AddGiftDialogFragment dialogFragment = new AddGiftDialogFragment();
-        Bundle args = new Bundle();
-        args.putInt("wishlistId", wishlist.getWishlistId());
-        dialogFragment.setArguments(args);
-        dialogFragment.setOnGiftAddedListener(this);
-        dialogFragment.show(requireFragmentManager(), "AddGiftDialog");
     }
 
     @Override
     public void onGiftAdded(Gift gift) {
+        gift.setWishlistId(wishlist.getWishlistId());
         addGift(gift);
         uploadGiftToApi(gift);
     }
@@ -134,21 +125,6 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
 
     private void addGift(Gift gift) {
         // Add the new gift to the local list and notify the adapter
-
-        int priorityInt = Integer.parseInt(gift.getPriority());
-        if (priorityInt >= 0 && priorityInt < 4) {
-            gift.setPriority("LOW");
-        } else {
-            if (priorityInt >= 4 && priorityInt < 7) {
-                gift.setPriority("MEDIUM");
-            } else {
-                if (priorityInt >= 7 && priorityInt <= 10) {
-                    gift.setPriority("HIGH");
-                } else {
-                    gift.setPriority("LOW");
-                }
-            }
-        }
         giftList.add(gift);
         giftAdapter.notifyDataSetChanged();
     }
@@ -156,12 +132,17 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
     private void uploadGiftToApi(Gift gift) {
         String url = MethodsAPI.URL_BASE + "gifts";
         String token = getToken(); // Replace with the actual token
+        System.out.println("TOKEN: " + token);
+
 
         try {
             JSONObject requestBody = new JSONObject();
             requestBody.put("wishlist_id", gift.getWishlistId());
-            requestBody.put("priority", gift.getPriority());
+            requestBody.put("priority", gift.getPriorityInt());
             requestBody.put("product_url", gift.getProductUrl());
+            System.out.println(gift.getWishlistId());
+            System.out.println(gift.getPriorityInt());
+            System.out.println(gift.getProductUrl());
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
                     new Response.Listener<JSONObject>() {
@@ -216,19 +197,6 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
                                 }
 
                                 int priorityInt = Integer.parseInt(priority);
-                                if (priorityInt >= 0 && priorityInt < 4) {
-                                    priority = "LOW"; // Assign a default value or handle the invalid case
-                                } else {
-                                    if (priorityInt >= 4 && priorityInt < 7) {
-                                        priority = "MEDIUM"; // Assign a default value or handle the invalid case
-                                    } else {
-                                        if (priorityInt >= 7 && priorityInt <= 10) {
-                                            priority = "HIGH"; // Assign a default value or handle the invalid case
-                                        } else {
-                                            priority = "LOW"; // Assign a default value or handle the invalid case
-                                        }
-                                    }
-                                }
 
                                 int booked_int = giftObject.getInt("booked");
 
@@ -237,7 +205,7 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
                                     booked = true;
                                 }
 
-                                Gift gift = new Gift(giftId, wishlistId, productUrl, priority, booked);
+                                Gift gift = new Gift(giftId, wishlistId, productUrl, priorityInt, booked);
                                 if (gift.getWishlistId() == wishlist.getWishlistId()) {
                                     giftList.add(gift);
                                 }
