@@ -1,13 +1,16 @@
 package com.example.giftgeek.RecyclerView;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,19 +18,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.giftgeek.Entities.Gift;
 import com.example.giftgeek.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftViewHolder> {
 
+    Activity activity;
     private List<Gift> giftList;
     private OnGiftDeleteListener onGiftDeleteListener;
     private OnGiftEditListener onGiftEditListener;
     private Context context;
 
-    public GiftAdapter(List<Gift> giftList, Context context) {
+    public GiftAdapter(Activity activity, List<Gift> giftList, Context context) {
         this.giftList = giftList;
         this.context = context;
+        this.activity = activity;
     }
 
     public void setOnGiftDeleteListener(OnGiftDeleteListener listener) {
@@ -67,15 +73,21 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftViewHolder
     }
 
     public class GiftViewHolder extends RecyclerView.ViewHolder {
-        private TextView giftUrlTextView;
-        private TextView giftPriorityTextView;
+        private TextView giftName;
+        private TextView giftPriority;
+        private TextView giftDescription;
+        private TextView giftPrice;
+        private ImageView giftImage;
         private ImageButton deleteButton;
         private ImageButton editButton;
 
         public GiftViewHolder(@NonNull View itemView) {
             super(itemView);
-            giftPriorityTextView = itemView.findViewById(R.id.priorityTextView);
-            giftUrlTextView = itemView.findViewById(R.id.productUrlTextView);
+            giftName = itemView.findViewById(R.id.user_list_text_view);
+            giftPriority = itemView.findViewById(R.id.priority);
+            giftDescription = itemView.findViewById(R.id.description);
+            giftPrice = itemView.findViewById(R.id.price);
+            giftImage = itemView.findViewById(R.id.user_list_image_view);
             deleteButton = itemView.findViewById(R.id.deleteButton); // Find the delete button view
             editButton = itemView.findViewById(R.id.editButton); // Find the edit button view
 
@@ -92,8 +104,21 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftViewHolder
         }
 
         public void bind(Gift gift) {
-            giftUrlTextView.setText(gift.getProductUrl());
-            giftPriorityTextView.setText(String.valueOf(gift.getPriority()));
+            giftName.setText(gift.getName());
+            giftPriority.setText(gift.getPriority());
+            giftDescription.setText(gift.getDescription());
+
+            if(gift.getPrice() != null){
+                giftPrice.setText(gift.getPrice().toString() + "€");
+            }else{
+                giftPrice.setText("No price");
+            }
+
+            try{
+                Picasso.with(activity).load(gift.getImageUrl()).resize(200, 200).into(giftImage);
+            }catch(Exception e){
+                giftImage.setImageResource(R.drawable.ic_baseline_card_giftcard_24);
+            }
 
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
