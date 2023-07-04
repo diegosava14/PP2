@@ -40,7 +40,7 @@ public class EditGiftDialogFragment extends DialogFragment {
 
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_add_gift, null);
-        giftUrlEditText = view.findViewById(R.id.giftUrlEditText);
+        //giftUrlEditText = view.findViewById(R.id.giftUrlEditText);
         giftPriorityEditText = view.findViewById(R.id.giftPriorityEditText);
 
         builder.setView(view)

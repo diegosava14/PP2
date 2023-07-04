@@ -85,7 +85,12 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
         });
 
         addGiftButton.setOnClickListener(v -> {
-            showAddGiftDialog();
+            //showAddGiftDialog();
+            ProductListFragment productListFragment = new ProductListFragment();
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.frame_layout, productListFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
 
         return view;

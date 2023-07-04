@@ -47,52 +47,52 @@ public class WishListFragment extends Fragment implements AddWishlistDialogFragm
         return new WishListFragment();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_wish_list, container, false);
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_wish_list, container, false);
 
-        wishlistRecyclerView = view.findViewById(R.id.wishlistRecyclerView);
+            wishlistRecyclerView = view.findViewById(R.id.wishlistRecyclerView);
 
-        // Set up RecyclerView
-        wishlist = new ArrayList<>();
-        wishlistAdapter = new WishListAdapter(wishlist, getUserId(), new WishListAdapter.WishlistClickListener() {
-            @Override
-            public void onDeleteWishlist(int wishlistId, int position) {
-                deleteWishlist(wishlistId, position);
-            }
-            @Override
-            public void onEditWishlist(int wishlistId) {
-                editWishlist(wishlistId);
-            }
+            // Set up RecyclerView
+            wishlist = new ArrayList<>();
+            wishlistAdapter = new WishListAdapter(wishlist, getUserId(), new WishListAdapter.WishlistClickListener() {
+                @Override
+                public void onDeleteWishlist(int wishlistId, int position) {
+                    deleteWishlist(wishlistId, position);
+                }
+                @Override
+                public void onEditWishlist(int wishlistId) {
+                    editWishlist(wishlistId);
+                }
 
-            @Override
-            public void onWishlistClicked(Wishlist wishlist) {
-                showWishlistDetails(wishlist);
-            }
+                @Override
+                public void onWishlistClicked(Wishlist wishlist) {
+                    showWishlistDetails(wishlist);
+                }
 
-        });
-        wishlistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        wishlistRecyclerView.setAdapter(wishlistAdapter);
+            });
+            wishlistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+            wishlistRecyclerView.setAdapter(wishlistAdapter);
 
-        // Load wishlists from API
-        loadWishlists();
+            // Load wishlists from API
+            loadWishlists();
 
-        Button addButton = view.findViewById(R.id.addButton);
-        addButton.setOnClickListener(v -> {
-            showAddWishlistDialog();
-        });
+            Button addButton = view.findViewById(R.id.addButton);
+            addButton.setOnClickListener(v -> {
+                showAddWishlistDialog();
+            });
 
-        return view;
-    }
+            return view;
+        }
 
-    private void showWishlistDetails(Wishlist wishlist) {
-        // Navigate to the GiftFragment and pass the wishlist ID as an argument
-        GiftFragment giftFragment = GiftFragment.newInstance(wishlist);
-        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, giftFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
+        private void showWishlistDetails(Wishlist wishlist) {
+            // Navigate to the GiftFragment and pass the wishlist ID as an argument
+            GiftFragment giftFragment = GiftFragment.newInstance(wishlist);
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame_layout, giftFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
 
 
     private void loadWishlists() {
