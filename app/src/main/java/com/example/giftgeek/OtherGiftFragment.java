@@ -118,12 +118,27 @@ public class OtherGiftFragment extends Fragment implements OtherGiftAdapter.OnGi
                                 int giftId = giftObject.getInt("id");
                                 int wishlistId = giftObject.getInt("wishlist_id");
                                 String productUrl = giftObject.getString("product_url");
-                                int priority;
+                                int priorityInt;
                                 if (giftObject.isNull("priority")) {
-                                    priority = 0; // Assign a default value or handle the null case
+                                    priorityInt = 0; // Assign a default value or handle the null case
                                 } else {
-                                    priority = giftObject.getInt("priority");
+                                    priorityInt = giftObject.getInt("priority");
                                 }
+                                String priority;
+                                if (priorityInt >= 0 && priorityInt < 4) {
+                                    priority = "LOW";
+                                } else {
+                                    if (priorityInt >= 4 && priorityInt < 7) {
+                                        priority = "MEDIUM";
+                                    } else {
+                                        if (priorityInt >= 7 && priorityInt <= 10) {
+                                            priority = "HIGH";
+                                        } else {
+                                            priority = "LOW";
+                                        }
+                                    }
+                                }
+
                                 int booked_int = giftObject.getInt("booked");
 
                                 boolean booked = false;

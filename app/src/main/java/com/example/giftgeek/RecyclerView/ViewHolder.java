@@ -20,9 +20,9 @@ public class ViewHolder extends RecyclerView.ViewHolder {
 
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
-        imageView = itemView.findViewById(R.id.reserved_gift_image);
-        nameText = itemView.findViewById(R.id.reserved_gift_name);
-        emailText = itemView.findViewById(R.id.reserved_gift_description);
+        imageView = itemView.findViewById(R.id.user_list_image_view);
+        nameText = itemView.findViewById(R.id.user_list_text_view);
+        emailText = itemView.findViewById(R.id.user_email_text_view);
         relativeLayout = itemView.findViewById(R.id.relative_layout);
     }
 
