@@ -81,6 +81,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
+                intent.putExtra("accessToken", "");
                 intent.setClass(getActivity(), InitialScreen.class);
                 startActivity(intent);
             }

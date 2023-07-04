@@ -31,6 +31,15 @@ public class MethodsAPI {
         if(name.equals("Dog")){
             return "https://balandrau.salle.url.edu/i3/repositoryimages/photo/d5c28747-dbed-47f0-9df4-67203352e91a.jpg";
         }
+        if(name.equals("Ferrari")){
+            return "https://balandrau.salle.url.edu/i3/repositoryimages/photo/865dd4ac-ca8e-4efe-af8f-b8baf945dffc.jpg";
+        }
+        if(name.equals("Porsche")){
+            return "https://balandrau.salle.url.edu/i3/repositoryimages/photo/b1cb5396-f13f-4417-8dba-e168382f4177.jpg";
+        }
+        if(name.equals("Cat")){
+            return "https://balandrau.salle.url.edu/i3/repositoryimages/photo/bd9ea0a5-ff8f-4c33-9e03-493dbd9587c8.jpg";
+        }
 
         return null;
     }
