@@ -63,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.user:
 
-                    Log.d("user_id_MAIN", String.valueOf(getIntent().getIntExtra("user_id", 1)));
-
                     bundle_user.putInt("user_id", getIntent().getIntExtra("user_id", 1));
                     bundle_user.putString("accessToken", getIntent().getStringExtra("accessToken"));
 
