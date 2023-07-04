@@ -46,7 +46,7 @@ public class SearchFragment extends Fragment implements ItemClickListener {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         users = new ArrayList<>();
-        adapter = new ItemAdapter(getContext(), users, this);
+        adapter = new ItemAdapter(getActivity(), getContext(), users, this);
 
         recyclerView = view.findViewById(R.id.user_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -127,6 +127,7 @@ public class SearchFragment extends Fragment implements ItemClickListener {
         bundle.putString("other_user_name", user.getName());
         bundle.putString("other_user_last", user.getLastName());
         bundle.putString("other_user_email", user.getEmail());
+        bundle.putString("other_user_image", user.getImage());
         profileFragment.setArguments(bundle);
 
         getParentFragmentManager().beginTransaction()

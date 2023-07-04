@@ -16,4 +16,13 @@
     <string name="buttonWishlists">Wishlists</string>
     <string name="buttonReservedGifts">Reserved Gifts</string>
     <string name="done">Done</string>
+
+    <string name="spinner_prompt">Select an image</string>
+
+    <string-array name="dropdown_items">
+        <item>Select a profile picture</item>
+        <item>Luffy</item>
+        <item>Kirby</item>
+        <item>Dog</item>
+    </string-array>
 </resources>

@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.giftgeek.API.MethodsAPI;
+import com.squareup.picasso.Picasso;
 import com.example.giftgeek.RecyclerView.OtherWishListAdapter;
 
 import org.json.JSONArray;
@@ -35,7 +36,7 @@ import java.util.Map;
 
 public class ProfileFragment extends Fragment {
 
-
+    private ImageView profilePic;
     private TextView name;
     private TextView lastName;
     private TextView email;
@@ -54,6 +55,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_other_user, container, false);
 
+        profilePic = view.findViewById(R.id.profilePic_profile);
         name = view.findViewById(R.id.nameTextView);
         lastName = view.findViewById(R.id.lastNameTextView);
         email = view.findViewById(R.id.emailTextView);
@@ -62,6 +64,14 @@ public class ProfileFragment extends Fragment {
         wishlistsButton = view.findViewById(R.id.wishlistsButton);
         reservedGiftsButton = view.findViewById(R.id.reservedGiftsButton);
         backButton = view.findViewById(R.id.backButton_profile);
+
+        String url_pic = getArguments().getString("other_user_image");
+
+        try{
+            Picasso.with(getActivity()).load(url_pic).resize(200, 200).into(profilePic);
+        }catch(Exception e){
+            profilePic.setImageResource(R.drawable.ic_baseline_account_circle_24);
+        }
 
         stats_bundle = new Bundle();
         getNumWishLists();
