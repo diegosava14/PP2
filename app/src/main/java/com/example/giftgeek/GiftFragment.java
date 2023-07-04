@@ -2,12 +2,14 @@ package com.example.giftgeek;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,10 +21,12 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.giftgeek.API.MethodsAPI;
 import com.example.giftgeek.Entities.Gift;
+import com.example.giftgeek.Entities.User;
 import com.example.giftgeek.Entities.Wishlist;
 import com.example.giftgeek.RecyclerView.GiftAdapter;
 
@@ -36,7 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGiftAddedListener, GiftAdapter.OnGiftDeleteListener, GiftAdapter.OnGiftEditListener {
-
+    Gift gift;
     private TextView wishlistTitleTextView;
     private RecyclerView giftRecyclerView;
     private GiftAdapter giftAdapter;
@@ -63,7 +67,7 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
         } else {
             giftList = new ArrayList<>(); // Initialize an empty list
         }
-        giftAdapter = new GiftAdapter(giftList, requireContext());
+        giftAdapter = new GiftAdapter(getActivity(), giftList, requireContext());
         giftAdapter.setOnGiftDeleteListener(this);
         giftAdapter.setOnGiftEditListener(this);
     }
@@ -101,8 +105,10 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         wishlistTitleTextView.setText(wishlist.getName());
+
         giftRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         giftRecyclerView.setAdapter(giftAdapter);
+
         loadGifts();
     }
 
@@ -132,7 +138,6 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
     private void uploadGiftToApi(Gift gift) {
         String url = MethodsAPI.URL_BASE + "gifts";
         String token = getToken(); // Replace with the actual token
-        System.out.println("TOKEN: " + token);
 
 
         try {
@@ -140,9 +145,6 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
             requestBody.put("wishlist_id", gift.getWishlistId());
             requestBody.put("priority", gift.getPriorityInt());
             requestBody.put("product_url", gift.getProductUrl());
-            System.out.println(gift.getWishlistId());
-            System.out.println(gift.getPriorityInt());
-            System.out.println(gift.getProductUrl());
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
                     new Response.Listener<JSONObject>() {
@@ -176,16 +178,15 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
         String url = MethodsAPI.URL_BASE + "gifts";
         String token = getToken();
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(JSONArray response) {
                         try {
                             giftList.clear(); // Clear the existing gift list
 
-                            JSONArray giftsArray = response.getJSONArray("gifts");
-                            for (int i = 0; i < giftsArray.length(); i++) {
-                                JSONObject giftObject = giftsArray.getJSONObject(i);
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject giftObject = response.getJSONObject(i);
                                 int giftId = giftObject.getInt("id");
                                 int wishlistId = giftObject.getInt("wishlist_id");
                                 String productUrl = giftObject.getString("product_url");
@@ -207,11 +208,9 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
 
                                 Gift gift = new Gift(giftId, wishlistId, productUrl, priorityInt, booked);
                                 if (gift.getWishlistId() == wishlist.getWishlistId()) {
-                                    giftList.add(gift);
+                                    loadProduct(gift);
                                 }
                             }
-
-                            giftAdapter.notifyDataSetChanged(); // Notify the adapter about the updated data
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -232,6 +231,34 @@ public class GiftFragment extends Fragment implements AddGiftDialogFragment.OnGi
         };
 
         Volley.newRequestQueue(requireContext()).add(request);
+    }
+
+    public void loadProduct(Gift gift) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, gift.getProductUrl(), null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Handle successful response
+                        try {
+                            gift.setName(response.getString("name"));
+                            gift.setImageUrl(response.getString("photo"));
+                            gift.setPrice(response.getDouble("price"));
+                            gift.setDescription(response.getString("description"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        giftList.add(gift);
+                        giftAdapter.notifyDataSetChanged();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+
+        // Add the request to the Volley request queue
+        Volley.newRequestQueue(getActivity().getApplicationContext()).add(request);
     }
 
     private void deleteGift(Gift gift) {

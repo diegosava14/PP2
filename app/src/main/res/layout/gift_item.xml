@@ -1,80 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- gift_item.xml -->
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:padding="16dp">
+    android:layout_marginTop="10dp"
+    android:id="@+id/relative_layout"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/user_list_image_view"
+        android:layout_marginRight="10dp"
+        android:layout_centerVertical="true"
+        />
+
+    <ImageButton
+        android:id="@+id/editButton"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:src="@drawable/ic_baseline_edit_24"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_toRightOf="@+id/user_list_text_view" />
+
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:src="@drawable/baseline_delete_24"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_below="@+id/editButton"
+        android:layout_alignStart="@+id/editButton" />
+
+
+    <TextView
+        android:id="@+id/user_list_text_view"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_toEndOf="@+id/user_list_image_view"
+        android:textColor="@color/black"
+        tools:text="name" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/user_list_image_view"
+        android:layout_below="@id/user_list_text_view"
+        android:textColor="@color/black"
+        tools:text="Description" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/user_list_image_view"
+        android:layout_below="@id/description"
+        android:textColor="@color/black"
+        tools:text="Price" />
+
+    <TextView
+        android:id="@+id/priority"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/user_list_image_view"
+        android:layout_below="@id/price"
+        android:textColor="@color/black"
+        tools:text="Priority" />
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/priorityTitleTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:text="Priority: "
-            android:textColor="@android:color/black" />
-
-        <TextView
-            android:id="@+id/priorityTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/black" />
-
-        <TextView
-            android:id="@+id/productUrlTitleTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:text="Product URL: "
-            android:textColor="@android:color/black" />
-
-        <TextView
-            android:id="@+id/productUrlTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/holo_blue_dark" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp" />
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/priority"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageButton
-            android:id="@+id/editButton"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:src="@drawable/ic_baseline_edit_24"
-            android:background="?android:attr/selectableItemBackground"
-            android:padding="16dp" />
-
-        <ImageButton
-            android:id="@+id/deleteButton"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:src="@drawable/baseline_delete_24"
-            android:background="?android:attr/selectableItemBackground"
-            android:padding="16dp" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
