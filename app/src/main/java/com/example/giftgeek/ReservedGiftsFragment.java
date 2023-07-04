@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.giftgeek.API.MethodsAPI;
 import com.example.giftgeek.Entities.Gift;
@@ -34,6 +35,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ReservedGiftsFragment extends Fragment {
+
+    Gift gift;
 
     private RecyclerView reservedGiftsRecyclerView;
     private ReservedGiftAdapter reservedGiftAdapter;
@@ -58,7 +61,7 @@ public class ReservedGiftsFragment extends Fragment {
 
         // Set up RecyclerView
         gifts = new ArrayList<>();
-        reservedGiftAdapter = new ReservedGiftAdapter(gifts, getArguments().getInt("other_user_id"));
+        reservedGiftAdapter = new ReservedGiftAdapter(getActivity(), gifts, getArguments().getInt("other_user_id"));
         reservedGiftsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         reservedGiftsRecyclerView.setAdapter(reservedGiftAdapter);
 
@@ -107,13 +110,11 @@ public class ReservedGiftsFragment extends Fragment {
                                     booked = true;
                                 }
 
-                                Gift gift = new Gift(giftId, wishlistId, productUrl, priorityInt, booked);
-                                gifts.add(gift);
+                                gift = new Gift(giftId, wishlistId, productUrl, priorityInt, booked);
+                                loadProduct(gift);
                                 //System.out.println();
 
                             }
-
-                            reservedGiftAdapter.notifyDataSetChanged(); // Notify the adapter about the updated data
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -134,5 +135,34 @@ public class ReservedGiftsFragment extends Fragment {
         };
 
         Volley.newRequestQueue(requireContext()).add(request);
+    }
+
+    public void loadProduct(Gift gift) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, gift.getProductUrl(), null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Handle successful response
+                        try {
+                            gift.setName(response.getString("name"));
+                            gift.setImageUrl(response.getString("photo"));
+                            gift.setPrice(response.getDouble("price"));
+                            gift.setDescription(response.getString("description"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println(gift.getName());
+                        gifts.add(gift);
+                        reservedGiftAdapter.notifyDataSetChanged();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+
+        // Add the request to the Volley request queue
+        Volley.newRequestQueue(getActivity().getApplicationContext()).add(request);
     }
 }

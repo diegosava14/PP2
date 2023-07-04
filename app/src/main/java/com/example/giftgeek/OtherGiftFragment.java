@@ -20,6 +20,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.giftgeek.API.MethodsAPI;
@@ -38,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OtherGiftFragment extends Fragment implements OtherGiftAdapter.OnGiftReserveListener {
-
+    Gift gift;
     private TextView wishlistTitleTextView;
     private RecyclerView giftRecyclerView;
     private OtherGiftAdapter giftAdapter;
@@ -66,7 +67,7 @@ public class OtherGiftFragment extends Fragment implements OtherGiftAdapter.OnGi
         } else {
             giftList = new ArrayList<>(); // Initialize an empty list
         }
-        giftAdapter = new OtherGiftAdapter(giftList, requireContext());
+        giftAdapter = new OtherGiftAdapter(getActivity(), giftList, requireContext());
         giftAdapter.setOnGiftReserveListener(this);
 
     }
@@ -105,26 +106,26 @@ public class OtherGiftFragment extends Fragment implements OtherGiftAdapter.OnGi
         String url = MethodsAPI.URL_BASE + "gifts";
         String token = getToken();
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(JSONArray response) {
                         try {
                             giftList.clear(); // Clear the existing gift list
 
-                            JSONArray giftsArray = response.getJSONArray("gifts");
-                            for (int i = 0; i < giftsArray.length(); i++) {
-                                JSONObject giftObject = giftsArray.getJSONObject(i);
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject giftObject = response.getJSONObject(i);
                                 int giftId = giftObject.getInt("id");
                                 int wishlistId = giftObject.getInt("wishlist_id");
                                 String productUrl = giftObject.getString("product_url");
-                                int priorityInt;
+                                String priority;
                                 if (giftObject.isNull("priority")) {
-                                    priorityInt = 0; // Assign a default value or handle the null case
+                                    priority = "0"; // Assign a default value or handle the null case
                                 } else {
-                                    priorityInt = giftObject.getInt("priority");
+                                    priority = giftObject.getString("priority");
                                 }
 
+                                int priorityInt = Integer.parseInt(priority);
 
                                 int booked_int = giftObject.getInt("booked");
 
@@ -135,11 +136,9 @@ public class OtherGiftFragment extends Fragment implements OtherGiftAdapter.OnGi
 
                                 Gift gift = new Gift(giftId, wishlistId, productUrl, priorityInt, booked);
                                 if (gift.getWishlistId() == wishlist.getWishlistId()) {
-                                    giftList.add(gift);
+                                    loadProduct(gift);
                                 }
                             }
-
-                            giftAdapter.notifyDataSetChanged(); // Notify the adapter about the updated data
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -162,6 +161,34 @@ public class OtherGiftFragment extends Fragment implements OtherGiftAdapter.OnGi
         Volley.newRequestQueue(requireContext()).add(request);
     }
 
+    public void loadProduct(Gift gift) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, gift.getProductUrl(), null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Handle successful response
+                        try {
+                            gift.setName(response.getString("name"));
+                            gift.setImageUrl(response.getString("photo"));
+                            gift.setPrice(response.getDouble("price"));
+                            gift.setDescription(response.getString("description"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println(gift.getName());
+                        giftList.add(gift);
+                        giftAdapter.notifyDataSetChanged();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+
+        // Add the request to the Volley request queue
+        Volley.newRequestQueue(getActivity().getApplicationContext()).add(request);
+    }
     @Override
     public void onGiftReserved(Gift gift) {
         if (gift.isBooked()) {

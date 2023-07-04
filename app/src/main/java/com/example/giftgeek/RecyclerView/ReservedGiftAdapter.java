@@ -1,5 +1,6 @@
 package com.example.giftgeek.RecyclerView;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.giftgeek.Entities.Gift;
 import com.example.giftgeek.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class ReservedGiftAdapter extends RecyclerView.Adapter<ReservedGiftAdapter.ReservedGiftViewHolder> {
 
+    Activity activity;
     private List<Gift> reservedGifts;
     private int clickedUserId;
 
-    public ReservedGiftAdapter(List<Gift> reservedGifts, int clickedUserId) {
+    public ReservedGiftAdapter(Activity activity, List<Gift> reservedGifts, int clickedUserId) {
         this.reservedGifts = reservedGifts;
         this.clickedUserId = clickedUserId;
+        this.activity = activity;
     }
 
     @NonNull
@@ -57,9 +61,13 @@ public class ReservedGiftAdapter extends RecyclerView.Adapter<ReservedGiftAdapte
         }
 
         public void bind(Gift gift) {
-            giftNameTextView.setText(String.valueOf(gift.getId()));
-            descriptionTextView.setText(gift.getProductUrl());
-            //imageView.setText(wishlist.getEndDate());
+            giftNameTextView.setText(gift.getName());
+            descriptionTextView.setText(gift.getDescription());
+            try{
+                Picasso.with(activity).load(gift.getImageUrl()).resize(200, 200).into(imageView);
+            }catch(Exception e){
+                imageView.setImageResource(R.drawable.ic_baseline_card_giftcard_24);
+            }
         }
     }
 

@@ -32,11 +32,7 @@ public class Gift {
             if (priorityInt >= 4 && priorityInt < 7) {
                 return "MEDIUM";
             } else {
-                if (priorityInt >= 7 && priorityInt <= 10) {
-                    return "HIGH";
-                } else {
-                    return "LOW";
-                }
+                return "HIGH";
             }
         }
     }

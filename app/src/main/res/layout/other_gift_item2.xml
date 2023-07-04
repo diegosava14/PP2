@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/other_gift_name"
-        android:layout_width="240dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:layout_toEndOf="@+id/other_gift_image_view"
@@ -27,7 +27,7 @@
 
     <TextView
         android:id="@+id/other_gift_description"
-        android:layout_width="240dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/other_gift_image_view"
         android:layout_below="@id/other_gift_name"
@@ -36,7 +36,7 @@
 
     <TextView
         android:id="@+id/other_gift_price"
-        android:layout_width="240dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/other_gift_image_view"
         android:layout_below="@id/other_gift_description"
@@ -44,8 +44,8 @@
         tools:text="Price" />
 
     <TextView
-        android:id="@+id/other_gift_priority"
-        android:layout_width="240dp"
+        android:id="@+id/priority"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/other_gift_image_view"
         android:layout_below="@id/other_gift_price"
@@ -71,12 +71,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_below="@id/other_gift_priority"
+        android:layout_below="@id/priority"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
     </LinearLayout>
 
 </RelativeLayout>
-
-

@@ -64,9 +64,9 @@ public class Login extends AppCompatActivity {
                 String email = emailField.getText().toString();
                 String password = passwordField.getText().toString();
 
-                //signIn(email, password);
+                signIn(email, password);
                 //signIn("dani-11@gmail.com", "password1");
-                signIn("cl@gmail.com", "ferrari");
+                //signIn("cl@gmail.com", "ferrari");
                 //signIn("vladi.daddy@gmail.com", "ukraineLover");
             }
         });
