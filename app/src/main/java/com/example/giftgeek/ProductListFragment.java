@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,6 +36,7 @@ public class ProductListFragment extends Fragment {
     private ProductAdapter productAdapter;
     private List<Product> productList;
 
+    private ImageView backButton;
     public ProductListFragment() {
         // Required empty public constructor
     }
@@ -47,7 +49,12 @@ public class ProductListFragment extends Fragment {
         getProductList();
 
         // Create the adapter and pass the product list
-        productAdapter = new ProductAdapter(getActivity(), productList);
+        productAdapter = new ProductAdapter(getActivity(), productList, new ProductAdapter.ProductClickedListener() {
+            @Override
+            public void onProductClicked(Product product) {
+                System.out.println("product clicked");
+            }
+        });
     }
 
     @SuppressLint("MissingInflatedId")
@@ -60,6 +67,15 @@ public class ProductListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.product_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(productAdapter);
+
+        backButton = view.findViewById(R.id.backButton_productList);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
 
         return view;
     }

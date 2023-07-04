@@ -140,7 +140,12 @@ public class AddGiftDialogFragment extends DialogFragment {
                             }
                         }
 
-                        ProductAdapter adapter = new ProductAdapter(getActivity(), products);
+                        ProductAdapter adapter = new ProductAdapter(getActivity(), products, new ProductAdapter.ProductClickedListener() {
+                            @Override
+                            public void onProductClicked(Product product) {
+
+                            }
+                        });
 
                         ListView listView = new ListView(requireContext());
                         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);

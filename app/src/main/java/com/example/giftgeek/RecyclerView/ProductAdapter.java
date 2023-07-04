@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.giftgeek.Entities.Product;
+import com.example.giftgeek.Entities.Wishlist;
 import com.example.giftgeek.R;
 import com.squareup.picasso.Picasso;
 
@@ -20,9 +21,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     private Activity activity;
     private List<Product> productList;
 
-    public ProductAdapter(Activity activity, List<Product> productList) {
+    private ProductClickedListener productClickedListener;
+
+    public ProductAdapter(Activity activity, List<Product> productList, ProductClickedListener productClickedListener) {
         this.productList = productList;
         this.activity = activity;
+        this.productClickedListener = productClickedListener;
     }
 
     @NonNull
@@ -38,10 +42,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         // Retrieve the product at the given position
         Product product = productList.get(position);
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                productClickedListener.onProductClicked(product);
+            }
+        });
+
         // Bind the product data to the ViewHolder
         holder.bind(product);
     }
 
+    public interface ProductClickedListener {
+        void onProductClicked(Product product);
+    }
     @Override
     public int getItemCount() {
         return productList.size();
