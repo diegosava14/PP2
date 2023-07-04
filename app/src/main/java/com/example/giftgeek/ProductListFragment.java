@@ -47,7 +47,7 @@ public class ProductListFragment extends Fragment {
         getProductList();
 
         // Create the adapter and pass the product list
-        productAdapter = new ProductAdapter(productList);
+        productAdapter = new ProductAdapter(getActivity(), productList);
     }
 
     @SuppressLint("MissingInflatedId")

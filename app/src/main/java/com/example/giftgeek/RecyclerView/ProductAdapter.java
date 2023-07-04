@@ -1,8 +1,10 @@
 package com.example.giftgeek.RecyclerView;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,14 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.giftgeek.Entities.Product;
 import com.example.giftgeek.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
+    private Activity activity;
     private List<Product> productList;
 
-    public ProductAdapter(List<Product> productList) {
+    public ProductAdapter(Activity activity, List<Product> productList) {
         this.productList = productList;
+        this.activity = activity;
     }
 
     @NonNull
@@ -47,11 +52,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         private TextView productDescriptionTextView;
         private TextView productPriceTextView;
 
+        private ImageView productImageView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             productNameTextView = itemView.findViewById(R.id.user_list_text_view);
             productDescriptionTextView = itemView.findViewById(R.id.description);
             productPriceTextView = itemView.findViewById(R.id.price);
+            productImageView = itemView.findViewById(R.id.user_list_image_view);
         }
 
         public void bind(Product product) {
@@ -59,6 +67,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             productNameTextView.setText(product.getName());
             productDescriptionTextView.setText(product.getDescription());
             productPriceTextView.setText(String.valueOf(product.getPrice())+" €");
+
+            try{
+                Picasso.with(activity).load(product.getImageUrl()).resize(200, 200).into(productImageView);
+            }catch(Exception e){
+                productImageView.setImageResource(R.drawable.ic_baseline_card_giftcard_24);
+            }
         }
     }
 }
